@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 
 // Execute command and send result to client every 5 seconds
 setInterval(() => {
-  exec('cat /sys/class/thermal/thermal_zone1/temp', (error, stdout, stderr) => {
+  exec('cat /sys/class/thermal/thermal_zone0/temp', (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing command: ${error}`);
       return;
