@@ -3,7 +3,7 @@ const { exec } = require('child_process');
 
 const app = express();
 const SERVER_PORT = process.env.SERVER_PORT || 3000;
-const CAT_COMMAND = process.env.CAT_COMMAND || 'cat /sys/class/thermal/thermal_zone1/temp';
+const TEMPERATURE_LOCATION = process.env.TEMPERATURE_LOCATION || '/sys/class/thermal/thermal_zone1/temp';
 const REFRESH_SECONDS = parseInt(process.env.REFRESH_SECONDS || '5');
 
 // Serve static files
@@ -12,7 +12,7 @@ app.use(express.static('dist'))
 
 // Execute command and send result to client every 5 seconds
 setInterval(() => {
-  exec(CAT_COMMAND, (error, stdout, stderr) => {
+  exec(`cat ${TEMPERATURE_LOCATION}`, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing command: ${error}`);
       return;
