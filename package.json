@@ -1,16 +1,20 @@
 {
-  "name": "test",
+  "name": "live-temperature-checker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple temperature checker using Node.js, Express.js, and Socket.io",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
+    "sass": "sass public/styles.scss dist/styles.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "author": "breve-xx",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "socket.io": "^4.7.4"
+  },
+  "devDependencies": {
+    "sass": "^1.71.1"
   }
 }

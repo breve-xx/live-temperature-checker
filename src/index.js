@@ -2,16 +2,17 @@ const express = require('express');
 const { exec } = require('child_process');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const SERVER_PORT = process.env.SERVER_PORT || 3000;
+const CAT_COMMAND = process.env.CAT_COMMAND || 'cat /sys/class/thermal/thermal_zone1/temp';
+const REFRESH_SECONDS = parseInt(process.env.REFRESH_SECONDS || '5');
 
-// Serve HTML file
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
+// Serve static files
+app.use(express.static('public'));
+app.use(express.static('dist'))
 
 // Execute command and send result to client every 5 seconds
 setInterval(() => {
-  exec('cat /sys/class/thermal/thermal_zone0/temp', (error, stdout, stderr) => {
+  exec(CAT_COMMAND, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing command: ${error}`);
       return;
@@ -22,11 +23,11 @@ setInterval(() => {
     // Broadcast temperature to all connected clients
     io.emit('temperatureUpdate', temperature);
   });
-}, 5000);
+}, REFRESH_SECONDS * 1000);
 
 // Start the server
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const server = app.listen(SERVER_PORT, () => {
+  console.log(`Server is running on http://localhost:${SERVER_PORT}`);
 });
 
 const io = require('socket.io')(server);
